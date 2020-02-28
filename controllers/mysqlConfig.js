@@ -9,9 +9,8 @@ var pool = mysql.createPool({
     database: config.database.DATABASE
 });
 
-console.log(pool)
-
 let allServices = {
+    // 查询数据库
     query: function (sql, values) {
 
         return new Promise((resolve, reject) => {
@@ -31,7 +30,6 @@ let allServices = {
                 }
             })
         })
-
     },
    findUserData: function (name) {
         let _sql = `select * from testTable where name="${name}";`
@@ -41,6 +39,23 @@ let allServices = {
          let _sql = "insert into users set name=?,pass=?,avator=?,moment=?;"
          return allServices.query(_sql, obj)
      },
+     //成功
+     resultSuccessJson:(code=0,message="成功",data={})=>{
+         return {
+             code:code,
+             data:data,
+             message:message
+         }
+     },
+     //失败
+     resultErrorJson:(code=-1,message="失败",data={})=>{
+         return{
+            code:code,
+            data:data,
+            message:message
+         }
+     }
+
 }
 
 module.exports = allServices;

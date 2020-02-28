@@ -5,8 +5,12 @@ router.prefix('/users')
 
 //获取所有用户(GET请求)
 router.get('/', async (ctx, next) => {
-  // console.log(ctx.session.username)
-  ctx.body = await userService.findUserData('ddsd');
+  try{
+    let result = await userService.findUserData('ddsd');
+    ctx.body = userService.resultSuccessJson(undefined,undefined,result)
+  } catch(err){
+    ctx.body = userService.resultErrorJson(undefined,err,{})
+  }
 })
 
 // 增加用户(POST请求)
